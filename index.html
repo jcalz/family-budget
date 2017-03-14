@@ -1,173 +1,196 @@
 
 
 <html>
-  <head>
-    <title>Family Budget Simulation</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <style>
-      @import url('https://getbootstrap.com/dist/css/bootstrap.css');
-      td.negative {
-      color: red;
-      }
-    </style>
-    <script
-      src="https://code.jquery.com/jquery-3.1.1.js"
-      integrity="sha256-16cdPddA6VdVInumRGo6IbivbERE8p7CQR3HzTBuELA="
-      crossorigin="anonymous"></script>
-  </head>
-  <body>
-    <div class = "container-fluid">
-      <div class = "row">
-        <div class = "col-md-6">
-          <h3>Monthly family budget</h3>
-          <table class="table table-condensed table-bordered" id="budgetTable">
-            <tbody id="budgetBody">
-            </tbody>
-          </table>
-        </div>
-        <form class="form col-md-6" id="choices" onsubmit="return false;">
-          <h3>Options</h3>
-          <div class="checkbox">
-            <label><input type="checkbox" id="fitchburg">
-            <span>Move to Fitchburg</span>
-            <span class="help-block">You can save money on rent by moving out of Somerville, but your additional three hours of daily commuting means you need more childcare.</span></label>
-          </div>
-          <div class="checkbox">
-            <label><input type="checkbox" id="mbta">
-            <span>Use public transportation</span>
-            <span class="help-block">If you get rid of your car and use an MBTA bus pass instead, you will save money on transportation.  Unfortunately, the buses may not always run when you need to go to work.</span></label>
-          </div>
-          <div class="checkbox">
-            <label>
-            <input type="checkbox" id="friend">
-            <span>Move in with a friend</span>
-            <span class="help-block">Cut your monthly rent in half by sharing a 1,000 square foot apartment with another family.  Can your family make this work?  This may not be legal.</span></label>  
-          </div>
-          <div class="checkbox">
-            <label>
-            <input type="checkbox" id="secondJob">
-            <span>Get a second job</span>
-            <span class="help-block">Work an additional twenty hours a week.  Your income will increase, but you will need more childcare.</span></label>
-          </div>
-          <div class="checkbox">
-            <label><input type="checkbox" id="cans">
-            <span>Collect cans in your spare time</span>
-            <span class="help-block">Spend an hour each day collecting recyclable cans.  You will need more childcare to cover the time when you are unavailable.</span></label>
-          </div>
-          <div class="checkbox">  
-            <label><input type="checkbox" id="noRecreation">
-            <span>Forgo all recreation</span>
-            <span class="help-block">Your recreation budget pays for entertainment, vacations, and programs for your children.  You may choose to go without.</span></label>
-          </div>
-        </form>
+   <head>
+      <title>Family Budget Simulation</title>
+      <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+      <style>
+         @import url('https://getbootstrap.com/dist/css/bootstrap.css');
+         tr.income-row td.negative,
+         tr.expense-row td.diff-amount.positive,
+         tr.total-row td.diff-amount.negative,
+         tr.total-row td.final-amount.negative
+         {
+         color: red;
+         }
+         th {
+         background-color: #f2f2f2;
+         }
+      </style>
+      <script
+         src="https://code.jquery.com/jquery-3.1.1.js"
+         integrity="sha256-16cdPddA6VdVInumRGo6IbivbERE8p7CQR3HzTBuELA="
+         crossorigin="anonymous"></script>
+   </head>
+   <body>
+      <div class = "container-fluid">
+         <div class = "row">
+            <div class = "col-md-6">
+               <h3>Monthly family budget</h3>
+               <table class="table table-condensed table-bordered" id="budgetTable">
+                  <thead>
+                     <th>Line Item</th>
+                     <th class="text-right">Intial</th>
+                     <th class="text-right">Change</th>
+                     <th class="text-right">Final</th>
+                  </thead>
+                  <tbody id="budgetBody">
+                  </tbody>
+               </table>
+            </div>
+            <form class="form col-md-6" id="choices" onsubmit="return false;">
+               <h3>Options</h3>
+               <div class="checkbox">
+                  <label><input type="checkbox" id="fitchburg">
+                  <span>Move to Fitchburg</span>
+                  <span class="help-block">You can save money on rent by moving out of Somerville, but your additional three hours of daily commuting means you need more childcare.</span></label>
+               </div>
+               <div class="checkbox">
+                  <label><input type="checkbox" id="mbta">
+                  <span>Use public transportation</span>
+                  <span class="help-block">If you get rid of your car and use an MBTA bus pass instead, you will save money on transportation.  Unfortunately, the buses may not always run when you need to go to work.</span></label>
+               </div>
+               <div class="checkbox">
+                  <label>
+                  <input type="checkbox" id="friend">
+                  <span>Move in with a friend</span>
+                  <span class="help-block">Cut your monthly rent in half by sharing a 1,000 square foot apartment with another family.  Can your family make this work?  This may not be legal.</span></label>  
+               </div>
+               <div class="checkbox">
+                  <label>
+                  <input type="checkbox" id="secondJob">
+                  <span>Get a second job</span>
+                  <span class="help-block">Work an additional twenty hours a week.  Your income will increase, but you will need more childcare.</span></label>
+               </div>
+               <div class="checkbox">
+                  <label><input type="checkbox" id="cans">
+                  <span>Collect cans in your spare time</span>
+                  <span class="help-block">Spend an hour each day collecting recyclable cans.  You will need more childcare to cover the time when you are unavailable.</span></label>
+               </div>
+               <div class="checkbox">  
+                  <label><input type="checkbox" id="noRecreation">
+                  <span>Forgo all recreation</span>
+                  <span class="help-block">Your recreation budget pays for entertainment, vacations, and programs for your children.  You may choose to go without.</span></label>
+               </div>
+            </form>
+         </div>
       </div>
-    </div>
-  </body>
-  <script>
-    "use strict";
-    
-    var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
-    
-    function titleCase(str) {
-      return str.toLowerCase().split(" ").map(function (v) {
-        return v.charAt(0).toUpperCase() + v.slice(1);
-      }).join(" ");
-    }
-    
-    function money(v) {
-      return (v < 0 ? "-" : "") + "$" + Math.abs(v).toFixed(0);
-    }
-    
-    function objectMerge(into, from) {
-      Object.keys(from).forEach(function (k) {
-        if (_typeof(from[k]) === "object") {
-          if (!(k in into)) into[k] = {};
-          if (_typeof(into[k]) !== "object") into[k] = {
-            value: into[k]
-          };
-          objectMerge(into[k], from[k]);
-        } else {
-          into[k] = from[k];
-        }
-      });
-    }
-    
-    function getBudget(options) {
-      var o = {
-        fitchburg: false,
-        mbta: false,
-        friend: false,
-        secondJob: false,
-        cans: false,
-        cansHours: 30,
-        noRecreation: false,
-        initialLineItems: {
-          income: 3000,
-          rent: -2100,
-          childcare: -1000,
-          food: -800,
-          transportation: -600,
-          recreation: -300
-        }
-      };
-      objectMerge(o, options || {});
-    
-      var budget = Object.assign({}, o.initialLineItems);
-      budget.income = o.initialLineItems.income + (o.secondJob ? 900 : 0) + (o.cans ? o.cansHours * 3 : 0);
-      budget.rent = (o.fitchburg ? -1500 : o.initialLineItems.rent) * (o.friend ? 0.5 : 1);
-      budget.childcare = o.initialLineItems.childcare - (o.fitchburg ? 600 : 0) - (o.secondJob ? 800 : 0) - (o.cans ? o.cansHours * 10 : 0);
-      budget.food = o.initialLineItems.food;
-      budget.transportation = o.initialLineItems.transportation + (o.mbta ? 500 : 0);
-      budget.recreation = o.noRecreation ? 0 : o.initialLineItems.recreation;
-    
-      return budget;
-    };
-    
-    function displayBudget(budget) {
-      var rows = [];
-    
-      function headerRow(title) {
-        var ret = $('<tr>');
-        ret.append($('<th colspan="2">').text(title));
-        return ret;
-      }
-    
-      function lineItemRow(title, amount) {
-        var ret = $('<tr>');	
-        ret.append($('<td>').text(titleCase(title)));
-        ret.append($('<td>').text(money(amount)).toggleClass('negative',amount<0));    
-        return ret;
-      }
-      rows.push(headerRow('Income'));
-      var ks = Object.keys(budget);
-      ks.forEach(function (k) {
-        if (budget[k] > 0) rows.push(lineItemRow(k, budget[k]));
-      });
-      rows.push(headerRow('Expenses'));
-      ks.forEach(function (k) {
-        if (budget[k] <= 0) rows.push(lineItemRow(k, -budget[k]));
-      });
-      var net = ks.reduce(function (a, k) {
-        return a + budget[k];
-      }, 0);
-      rows.push(headerRow('Total'));
-      rows.push(lineItemRow('Savings', net));
-    
-      $('#budgetBody').empty().append(rows);
-    }
-    
-    function updateDisplay() {
-      var o = {};
-      $('#choices input[type=checkbox]').each(function (i, e) {
-        o[$(e).prop('id')] = $(e).prop('checked');
-      });
-      displayBudget(getBudget(o));
-    }
-    
-    $(function () {
-      updateDisplay();
-      $('#choices').change(updateDisplay);
-    });
+   </body>
+   <script>
+      "use strict";
       
-  </script>
+      var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+      
+      function titleCase(str) {
+        return str.toLowerCase().split(" ").map(function (v) {
+          return v.charAt(0).toUpperCase() + v.slice(1);
+        }).join(" ");
+      }
+      
+      function money(v) {
+        return v.toLocaleString('en-US',{style: 'currency', currency: 'USD', minimumFractionDigits: 0, maximumFractionDigits: 0});
+      //      return (v < 0 ? "-" : "") + "$" + Math.abs(v).toFixed(0);
+      }
+      
+      function objectMerge(into, from) {
+        Object.keys(from).forEach(function (k) {
+          if (_typeof(from[k]) === "object") {
+            if (!(k in into)) into[k] = {};
+            if (_typeof(into[k]) !== "object") into[k] = {
+              value: into[k]
+            };
+            objectMerge(into[k], from[k]);
+          } else {
+            into[k] = from[k];
+          }
+        });
+      }
+      
+      function getBudget(options) {
+        var o = {
+          fitchburg: false,
+          mbta: false,
+          friend: false,
+          secondJob: false,
+          cans: false,
+          cansHours: 30,
+          noRecreation: false,
+          initialLineItems: {
+            income: 3000,
+            rent: -2100,
+            childcare: -1000,
+            food: -800,
+            transportation: -600,
+            recreation: -300
+          }
+        };
+        objectMerge(o, options || {});
+      
+        var budget = Object.assign({}, o.initialLineItems);
+        budget.income = o.initialLineItems.income + (o.secondJob ? 900 : 0) + (o.cans ? o.cansHours * 3 : 0);
+        budget.rent = (o.fitchburg ? -1500 : o.initialLineItems.rent) * (o.friend ? 0.5 : 1);
+        budget.childcare = o.initialLineItems.childcare - (o.fitchburg ? 600 : 0) - (o.secondJob ? 800 : 0) - (o.cans ? o.cansHours * 10 : 0);
+        budget.food = o.initialLineItems.food;
+        budget.transportation = o.initialLineItems.transportation + (o.mbta ? 500 : 0);
+        budget.recreation = o.noRecreation ? 0 : o.initialLineItems.recreation;
+      
+        return budget;
+      };
+      
+      function displayBudget(budget, initialBudget) {
+        var rows = [];
+      
+        function headerRow(title) {
+          var ret = $('<tr>');
+          ret.append($('<th>').text(title));
+          ret.append($('<th>'));
+          ret.append($('<th>'));
+          ret.append($('<th>'));
+          return ret;
+        }
+      
+        function lineItemRow(title, amount, initialAmount) {
+          var diff = amount - initialAmount;
+          var ret = $('<tr>');	
+          ret.append($('<td>').text(titleCase(title)));
+          ret.append($('<td>').text(money(initialAmount)).addClass('init-amount text-right').toggleClass('negative',initialAmount<0).toggleClass('positive',initialAmount>0));    
+          ret.append($('<td>').text((diff>=0 ? '+' : '')+money(diff)).addClass('diff-amount text-right').toggleClass('negative',diff<0).toggleClass('positive',diff>0));    
+          ret.append($('<td>').text(money(amount)).addClass('final-amount text-right').toggleClass('negative',amount<0).toggleClass('positive',amount>0));   
+          return ret;
+        }
+        rows.push(headerRow('Income'));
+        var ks = Object.keys(initialBudget);
+        ks.forEach(function (k) {
+          if (initialBudget[k] > 0) rows.push(lineItemRow(k, budget[k], initialBudget[k]).addClass('income-row'));
+        });
+        rows.push(headerRow('Expenses'));
+        ks.forEach(function (k) {
+          if (initialBudget[k] <= 0) rows.push(lineItemRow(k, -budget[k], -initialBudget[k]).addClass('expense-row'));
+        });
+        var net = ks.reduce(function (a, k) {
+          return a + budget[k];
+        }, 0);
+        var initialNet = ks.reduce(function (a, k) {
+          return a + initialBudget[k];
+        }, 0);
+        rows.push(headerRow('Total'));
+        rows.push(lineItemRow('Savings', net, initialNet).addClass('total-row'));
+      
+        $('#budgetBody').empty().append(rows);
+      }
+      
+      function updateDisplay() {
+        var o = {};
+        $('#choices input[type=checkbox]').each(function (i, e) {
+          o[$(e).prop('id')] = $(e).prop('checked');
+        });
+        displayBudget(getBudget(o), getBudget());
+      }
+      
+      $(function () {
+        updateDisplay();
+        $('#choices').change(updateDisplay);
+      });
+        
+   </script>
 </html>

@@ -3,6 +3,7 @@
 <html>
   <head>
     <title>Family Budget Simulation</title>
+    <meta name="description" content="This is a family budget simulation">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
@@ -30,6 +31,8 @@
   </head>
   <body>
     <div class = "container-fluid">
+      <h1>Family Budget Simulation</h1>
+      <p>Here is a budget simulation.  Do this and this...</p>
       <div class = "row">
         <div class = "col-md-6">
           <h3>Monthly family budget</h3>
@@ -79,6 +82,26 @@
             <span class="help-block">Your recreation budget pays for entertainment, vacations, and programs for your children.  You may choose to go without.</span></label>
           </div>
         </form>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <h3>Sharing</h3>
+          <form class="form" id="sharing" onsubmit="return false;">
+            <div class="form-group">
+              <label for="comments">
+                <span>Share your thoughts</span>
+                <p class="help-block">What do you think can be done to address this issue?</p>
+              </label>
+              <textarea class="form-control" id="comments"></textarea>
+            </div>
+            <a id="facebook-button" role="button" class="btn btn-default btn-lg" href="" target="_blank">
+            Share on Facebook
+            </a>
+            <a id="email-button" role="button" class="btn btn-default btn-lg" href="" target="_blank">
+            Submit via Email
+            </a>
+          </form>
+        </div>
       </div>
     </div>
   </body>
@@ -133,9 +156,9 @@
     
     var helpButton = {};
     Object.keys(lineItemDescriptions).forEach(function(k){
-     var button = $('<button class="btn btn-link btn-space">'+
+     var button = $('<a tabindex="0" role="button" class="btn btn-link btn-space">'+
      '<span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>'+
-     '</button> ');
+     '</a> ');
      button.popover({container: 'body', content: lineItemDescriptions[k],
        title: titleCase(k), trigger: 'hover focus'});
      helpButton[k]=button;
@@ -224,11 +247,38 @@
       });
       displayBudget(getBudget(o), getBudget());
     }
+        
+    function facebookShareUrl(title, description, quote) {
+                var url = 'https://www.facebook.com/sharer/sharer.php?u=' +
+              encodeURIComponent('https://jcalz.github.io/family-budget')+
+              //'&picture=' + encodeURIComponent(previewImgUrl) +
+              '&title=' + encodeURIComponent(title) +
+              '&description=' + encodeURIComponent(description) +
+              '&quote=' + encodeURIComponent(quote)
+                return url;
+    
+    }
+    
+    function emailUrl(title, description, quote) {
+        var url = 'mailto:contact@stephanieforsomerville.com?subject='+
+          encodeURIComponent('Feedback about '+title)+
+          '&body='+encodeURIComponent('Feedback about '+title+' at https://jcalz.github.io/family-budget\n\n'+quote);
+        return url;
+    }
+    
+    function updateSharingButtons() {
+        var title=document.title;
+        var description=$('meta[name=description]').attr('content');
+        var quote=$('#comments').val();
+        $('#facebook-button').attr('href',facebookShareUrl(title,description,quote));
+       $('#email-button').attr('href',emailUrl(document.title,description,quote));  
+    }
     
     $(function () {
       updateDisplay();
       $('#choices').change(updateDisplay);
-      
+      updateSharingButtons();
+      $('#comments').change(updateSharingButtons);
     });
       
   </script>

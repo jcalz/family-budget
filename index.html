@@ -2,8 +2,8 @@
 
 <html>
   <head>
-    <title>Family Budget Simulation</title>
-    <meta name="description" content="This is a family budget simulation">
+    <title>Tough Choices: Balancing a Budget in Somerville on $36K/Year</title>
+    <meta name="description" content="An experiment you can try on your own or with other members of your household.">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
@@ -31,11 +31,36 @@
   </head>
   <body>
     <div class = "container-fluid">
-      <h1>Family Budget Simulation</h1>
-      <p>Here is a budget simulation.  Do this and this...</p>
+      <h1>Tough Choices<br><small>Balancing a Budget in Somerville on $36K/Year</small></h1>
+      <p>Here is an experiment you can try on your own or with other members of your household. Then, please share your ideas on what we can do to help families &mdash; as a City government, school district, and community of residents. The examples below are simplified but realistic for the income and expenses of a family of four in Somerville. Imagine you are in their shoes, and try to balance their monthly budget by making some tough choices.</p>
       <div class = "row">
         <div class = "col-md-6">
           <h3>Monthly family budget</h3>
+          <div id="lineItemData" hidden="hidden">
+            <div data-title="income" data-initial="3000">
+              <p>About 37% of households make less than $50,000. And 1,920 households (with about 2,304 children) make less than $23,550/year) Among students enrolled in the Somerville Public Schools, 66% of students qualify for free and reduced lunch, which requires that a family of four makes $50,000 or less.</p>
+              <p>Source: <a target="_blank" href="http://profiles.doe.mass.edu/students/classsizebygenderpopulation.aspx?orgcode=02740000&fycode=2014 ">Census ACS 2015 and 2013-2014 DESE.</a></p>
+            </div>
+            <div data-title="rent" data-initial="-2100">
+              <p>The median rent in Somerville is $2,384 for apartments of all sizes (source: Sustainable Neighborhoods Working Group Recommendations Report) A look at Craiglist shows the least expensive three-bedroom currently listed is $2,100/month &mdash; and the competition for those places is fierce. Often landlords prefer to rent to people without children and require a high credit score. 
+              </p>
+              <p>Source: <a target="_blank" href="http://www.somervillema.gov/snwg">Sustainable Neighborhoods Working Group</a></p>
+            </div>
+            <div data-title="childcare" data-initial="-1000">
+              <p>The average cost of childcare in the Boston area is $17,062 for infants and $12,781 for a four-year-old, according to e a report from the Economic Policy Institute. The YMCA (at $55/day) and the Somerville High School (at $45/day) are among Somerville's more affordable options.</p>
+              <p>Source: <a target="_blank" href="http://www.epi.org/child-care-costs-in-the-united-states/#/MA">Economic Policy Institute</a></p>
+            </div>
+            <div data-title="food" data-initial="-800">
+              <p>The average cost of food</p>
+            </div>
+            <div data-title="transportation" data-initial="-180">
+              <p>The average cost of care ownership is $2,168 for insurance, repair, and gas, or $180/month. The cost of an MBTA pass for bus and subway is $84.50/month, while the Zone 8 (for Fitchburg) pass is $363.00/month.</p>
+              <p>Source: <a target="_blank" href="http://www.bankrate.com/finance/auto/car-ownership-costs-by-state.aspx">Bankrate</a>
+            </div>
+            <div data-title="recreation" data-initial="-300">
+              <p>Your recreation budget pays for entertainment, vacations, and programs for your children.</p>
+            </div>
+          </div>
           <table class="table table-condensed table-bordered" id="budgetTable">
             <thead>
               <th class="col-md-3">Line Item</th>
@@ -52,7 +77,7 @@
           <div class="checkbox">
             <label><input type="checkbox" id="fitchburg">
             <span>Move to Fitchburg</span>
-            <span class="help-block">You can save money on rent by moving out of Somerville, but your additional three hours of daily commuting means you need more childcare.</span></label>
+            <span class="help-block">You can save money on rent by moving out of Somerville, but your additional three hours of daily commuting means you need more childcare. You may also need to spend more on transportation, like gas or an MBTA pass (not included in model) </span></label>
           </div>
           <div class="checkbox">
             <label><input type="checkbox" id="mbta">
@@ -63,7 +88,7 @@
             <label>
             <input type="checkbox" id="friend">
             <span>Move in with a friend</span>
-            <span class="help-block">Cut your monthly rent in half by sharing a 1,000 square foot apartment with another family.  Can your family make this work?  This may not be legal.</span></label>  
+            <span class="help-block">Cut your monthly rent in half by sharing a 1,000 square foot apartment with another family.  Can your family make this work?</span></label>  
           </div>
           <div class="checkbox">
             <label>
@@ -74,7 +99,7 @@
           <div class="checkbox">
             <label><input type="checkbox" id="cans">
             <span>Collect cans in your spare time</span>
-            <span class="help-block">Spend an hour each day collecting recyclable cans.  You will need more childcare to cover the time when you are unavailable.</span></label>
+            <span class="help-block">Spend an hour each day collecting recyclable cans.  You will need more childcare to cover the time when you are unavailable. Cans can be redeemed at $.05/can. </span></label>
           </div>
           <div class="checkbox">  
             <label><input type="checkbox" id="noRecreation">
@@ -115,6 +140,7 @@
         return v.charAt(0).toUpperCase() + v.slice(1);
       }).join(" ");
     }
+    	
     
     function money(v) {
       var r = [];        
@@ -145,24 +171,38 @@
       });
     }
     
-    var lineItemDescriptions = {
-        income: "You have a job.  It pays you money.",
-        rent: "You have an apartment.  It costs money.",
-        childcare: "You have kids.  They cost money.",
-        food: "You need food to eat. This costs money.",
-        transportation: "You drive a car, which needs gas, insurance, and maintenance, which costs money.",
-        recreation: "Entertainment, vacations, and programs for your kids costs money."
-    }
     
+    
+    var initialLineItems = {};
     var helpButton = {};
-    Object.keys(lineItemDescriptions).forEach(function(k){
-     var button = $('<a tabindex="0" role="button" class="btn btn-link btn-space">'+
+    
+    
+    function hidePopovers() {
+    $('a.helpButton').popover('hide');
+    }
+    function showPopover(el) {
+    $('a.helpButton').not(el).popover('hide');
+    $(el).popover('show');
+    }
+    $('#lineItemData>div').each(function(i,e){
+        var key = $(e).data('title');
+    initialLineItems[key]=Number($(e).data('initial'));
+    
+    var button = $('<a data-info="'+key+'" tabindex="0" role="button" class="helpButton btn btn-link btn-space btn-lg" onclick="showPopover(this)">'+
      '<span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>'+
-     '</a> ');
-     button.popover({container: 'body', content: lineItemDescriptions[k],
-       title: titleCase(k), trigger: 'hover focus'});
-     helpButton[k]=button;
+     '</a>');
+    
+    var template = '<div class="popover" role="tooltip"><div class="arrow"></div><h3><span class="popover-title"></span><a tabindex="0" role="button" class="close"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a></h3><div class="popover-content"></div></div>';
+    
+    button.popover({container: 'body', html:true, content: $(e).html(),
+       title: titleCase(key)+'<button type="button" class="close" onclick="hidePopovers()">&times;</button>', 
+    trigger: 'manual'});
+     helpButton[key]=button;
+    
+    
     });
+    
+    
     
     function getBudget(options) {
       var o = {
@@ -173,14 +213,7 @@
         cans: false,
         cansHours: 30,
         noRecreation: false,
-        initialLineItems: {
-          income: 3000,
-          rent: -2100,
-          childcare: -1000,
-          food: -800,
-          transportation: -600,
-          recreation: -300
-        }
+        initialLineItems: initialLineItems
       };
       objectMerge(o, options || {});
     
@@ -189,7 +222,7 @@
       budget.rent = (o.fitchburg ? -1500 : o.initialLineItems.rent) * (o.friend ? 0.5 : 1);
       budget.childcare = o.initialLineItems.childcare - (o.fitchburg ? 600 : 0) - (o.secondJob ? 800 : 0) - (o.cans ? o.cansHours * 10 : 0);
       budget.food = o.initialLineItems.food;
-      budget.transportation = o.initialLineItems.transportation + (o.mbta ? 500 : 0);
+      budget.transportation = o.mbta ? -96 : o.initialLineItems.transportation;
       budget.recreation = o.noRecreation ? 0 : o.initialLineItems.recreation;
     
       return budget;

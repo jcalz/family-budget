@@ -198,8 +198,6 @@
      '<span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>'+
      '</a>');
     
-    var template = '<div class="popover" role="tooltip"><div class="arrow"></div><h3><span class="popover-title"></span><a tabindex="0" role="button" class="close"><span class="glyphicon glyphicon-remove" aria-hidden="true" ></span></a></h3><div class="popover-content"></div></div>';
-    
     button.popover({container: 'body', html:true, content: $(e).html(),
        title: titleCase(key)+'<button type="button" class="close" onclick="hidePopovers()">&times;</button>', 
     trigger: 'manual'});

@@ -1,5 +1,3 @@
-
-
 <html>
   <head>
     <title>Tough Choices: Balancing a Budget in Somerville on $36K/Year</title>
@@ -178,21 +176,29 @@
     
     
     function hidePopovers() {
-    $('a.helpButton').popover('hide');
+      showPopover(false);
     }
-    function showPopover(el) {
+    function showPopover(el, toggle) {
     $('a.helpButton').not(el).popover('hide');
+    if (!el) return;
+    var shown = $(el).data()['bs.popover'].tip().hasClass('in');
+    
+    if (!shown) {
     $(el).popover('show');
+    } else if (toggle) {
+    $(el).popover('hide');
     }
+    }
+    
     $('#lineItemData>div').each(function(i,e){
         var key = $(e).data('title');
     initialLineItems[key]=Number($(e).data('initial'));
     
-    var button = $('<a data-info="'+key+'" tabindex="0" role="button" class="helpButton btn btn-link btn-space btn-lg" onclick="showPopover(this)">'+
+    var button = $('<a data-info="'+key+'" tabindex="0" role="button" class="helpButton btn btn-link btn-space btn-lg" onclick="showPopover(this, true)" onmouseenter="showPopover(this)">'+
      '<span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>'+
      '</a>');
     
-    var template = '<div class="popover" role="tooltip"><div class="arrow"></div><h3><span class="popover-title"></span><a tabindex="0" role="button" class="close"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a></h3><div class="popover-content"></div></div>';
+    var template = '<div class="popover" role="tooltip"><div class="arrow"></div><h3><span class="popover-title"></span><a tabindex="0" role="button" class="close"><span class="glyphicon glyphicon-remove" aria-hidden="true" ></span></a></h3><div class="popover-content"></div></div>';
     
     button.popover({container: 'body', html:true, content: $(e).html(),
        title: titleCase(key)+'<button type="button" class="close" onclick="hidePopovers()">&times;</button>', 
@@ -316,4 +322,3 @@
       
   </script>
 </html>
-

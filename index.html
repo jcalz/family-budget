@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title>Tough Choices: Balancing a Budget in Somerville on $36K/Year</title>
+    <title>Balancing a Budget in Somerville on $36K/Year</title>
     <meta name="description" content="An experiment you can try on your own or with other members of your household.">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
@@ -25,22 +25,28 @@
       padding-left: 0;
       padding-right: 5px;
       }
+      .glyphicon-none:before {
+      visibility: hidden !important;
+      }
+      .default-cursor {
+      cursor: default !important;
+      }
     </style>
   </head>
   <body>
     <div class = "container-fluid">
-      <h1>Tough Choices<br><small>Balancing a Budget in Somerville on $36K/Year</small></h1>
-      <p>Here is an experiment you can try on your own or with other members of your household. Then, please share your ideas on what we can do to help families &mdash; as a City government, school district, and community of residents. The examples below are simplified but realistic for the income and expenses of a family of four in Somerville. Imagine you are in their shoes, and try to balance their monthly budget by making some tough choices.</p>
+      <h1>Balancing a Budget in Somerville on $36K/Year</h1>
+      <p>Here is an experiment you can try on your own or with other members of your household. Then, please share your ideas on what we can do to help families &mdash; as a city government, school district, and community of residents. The examples below for a family of four are simplified, but not too far off the income and expenses of many families in Somerville. Try to balance their monthly budget by making some tough choices.</p>
       <div class = "row">
         <div class = "col-md-6">
           <h3>Monthly family budget</h3>
           <div id="lineItemData" hidden="hidden">
             <div data-title="income" data-initial="3000">
               <p>About 37% of households make less than $50,000. And 1,920 households (with about 2,304 children) make less than $23,550/year) Among students enrolled in the Somerville Public Schools, 66% of students qualify for free and reduced lunch, which requires that a family of four makes $50,000 or less.</p>
-              <p>Source: <a target="_blank" href="http://profiles.doe.mass.edu/students/classsizebygenderpopulation.aspx?orgcode=02740000&fycode=2014 ">Census ACS 2015 and 2013-2014 DESE.</a></p>
+              <p>Source: Census <a target="_blank" href="http://profiles.doe.mass.edu/students/classsizebygenderpopulation.aspx?orgcode=02740000&fycode=2014 ">ACS 2015 and 2013-2014 DESE.</a></p>
             </div>
             <div data-title="rent" data-initial="-2100">
-              <p>The median rent in Somerville is $2,384 for apartments of all sizes (source: Sustainable Neighborhoods Working Group Recommendations Report) A look at Craiglist shows the least expensive three-bedroom currently listed is $2,100/month &mdash; and the competition for those places is fierce. Often landlords prefer to rent to people without children and require a high credit score. 
+              <p>The median rent in Somerville is $2,384 for apartments of all sizes.  A look at Craiglist shows the least expensive three-bedroom currently listed is $2,100/month &mdash; and the competition for those places is fierce. Often landlords prefer to rent to people without children and require a high credit score. 
               </p>
               <p>Source: <a target="_blank" href="http://www.somervillema.gov/snwg">Sustainable Neighborhoods Working Group</a></p>
             </div>
@@ -49,14 +55,12 @@
               <p>Source: <a target="_blank" href="http://www.epi.org/child-care-costs-in-the-united-states/#/MA">Economic Policy Institute</a></p>
             </div>
             <div data-title="food" data-initial="-800">
-              <p>The average cost of food</p>
             </div>
             <div data-title="transportation" data-initial="-180">
               <p>The average cost of care ownership is $2,168 for insurance, repair, and gas, or $180/month. The cost of an MBTA pass for bus and subway is $84.50/month, while the Zone 8 (for Fitchburg) pass is $363.00/month.</p>
               <p>Source: <a target="_blank" href="http://www.bankrate.com/finance/auto/car-ownership-costs-by-state.aspx">Bankrate</a>
             </div>
             <div data-title="recreation" data-initial="-300">
-              <p>Your recreation budget pays for entertainment, vacations, and programs for your children.</p>
             </div>
           </div>
           <table class="table table-condensed table-bordered" id="budgetTable">
@@ -108,21 +112,23 @@
       </div>
       <div class="row">
         <div class="col-md-12">
-          <h3>Sharing</h3>
+          <h3>Share your thoughts</h3>
           <form class="form" id="sharing" onsubmit="return false;">
             <div class="form-group">
               <label for="comments">
-                <span>Share your thoughts</span>
-                <p class="help-block">What do you think can be done to address this issue?</p>
+              What can government (local government, our school district, the State government, the Federal government) or we as community members do to give this family better options?
               </label>
-              <textarea class="form-control" id="comments"></textarea>
+              <textarea class="form-control" id="comments">I think&hellip;</textarea>
             </div>
-            <a id="facebook-button" role="button" class="btn btn-default btn-lg" href="" target="_blank">
-            Share on Facebook
-            </a>
-            <a id="email-button" role="button" class="btn btn-default btn-lg" href="" target="_blank">
-            Submit via Email
-            </a>
+            <div class="form-group">
+              <label>Share your thoughts:</label>
+              <a id="facebook-button" role="button" class="btn btn-default btn-lg" href="" target="_blank">
+              on Facebook
+              </a>
+              <a id="email-button" role="button" class="btn btn-default btn-lg " href="" target="_blank">
+              via Email to Stephanie
+              </a>
+            </div>
           </form>
         </div>
       </div>
@@ -192,17 +198,25 @@
     
     $('#lineItemData>div').each(function(i,e){
         var key = $(e).data('title');
+        
     initialLineItems[key]=Number($(e).data('initial'));
     
-    var button = $('<a data-info="'+key+'" tabindex="0" role="button" class="helpButton btn btn-link btn-space btn-lg" onclick="showPopover(this, true)" onmouseenter="showPopover(this)">'+
+    var button;
+    if ($(e).html().trim()) {
+    
+    button = $('<a tabindex="0" role="button" class="helpButton btn btn-link btn-space btn-lg" onclick="showPopover(this, true)" onmouseenter="showPopover(this)">'+
      '<span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>'+
      '</a>');
     
     button.popover({container: 'body', html:true, content: $(e).html(),
        title: titleCase(key)+'<button type="button" class="close" onclick="hidePopovers()">&times;</button>', 
     trigger: 'manual'});
-     helpButton[key]=button;
     
+    } else {
+    button = $('<a disabled="disabled" tabindex="0" role="button" class="default-cursor btn-link btn btn-space btn-lg"><span class="glyphicon glyphicon-info-sign glyphicon-none" aria-hidden="true"></span></a>');
+    
+    }
+         helpButton[key]=button;
     
     });
     
